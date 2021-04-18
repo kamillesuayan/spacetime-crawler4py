@@ -14,13 +14,12 @@ def scraper(url, resp):
 def extract_next_links(url, resp):
     # do something with resp
     reqs = requests.get(url)
-    # print("     this is reqs:", reqs.text)
-    # print("     this is URL:", url)
+    
     soup = BeautifulSoup(reqs.text, 'html.parser')
+    print("TEXT ON THE WEBPAGE:", soup.get_text()) # to get the text on a webpage
 
     urls = []
-    for link in soup.find_all('a'):
-        # print(link.get('href'))
+    for link in soup.find_all('a'): # gets all the links that are on the webpage
         urls.append(link.get('href'))
     return urls
 
