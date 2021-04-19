@@ -14,7 +14,7 @@ def scraper(url, resp):
         soup = BeautifulSoup(reqs.text, 'html.parser')
         # print("TEXT ON THE WEBPAGE:", soup.get_text()) # to get the text on a webpage
         tkns = tkn.tokenize(soup.get_text())
-        if len(tkns) >= 199:
+        if len(tkns) >= 200:
             print(len(tkns))
             links = extract_next_links(url, resp)
             return [link for link in links if is_valid(link)]
