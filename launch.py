@@ -12,6 +12,7 @@ def main(config_file, restart):
     config.cache_server = get_cache_server(config, restart) # this function is in server_registration.py
     crawler = Crawler(config, restart)
     crawler.start()
+    
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -21,6 +22,6 @@ if __name__ == "__main__":
     main(args.config_file, args.restart)
 
     # ANSWERS
-    print("HERE ARE THE ANSWERS TO THE QUESTIONS FOR ASSIGNMENT 2 --------------------------------------")
-    print("     NUMBER OF UNIQUE PAGES:", len(crawler.unique_URLs)) # the set should only contain unique URLs
-    print("--------------------------------------------- END --------------------------------------------")
+    # print("HERE ARE THE ANSWERS TO THE QUESTIONS FOR ASSIGNMENT 2 --------------------------------------")
+    # print("     NUMBER OF UNIQUE PAGES:", len(Crawler.unique_URLs)) # the set should only contain unique URLs
+    # print("--------------------------------------------- END --------------------------------------------")

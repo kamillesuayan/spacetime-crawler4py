@@ -2,23 +2,29 @@ import re
 from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
+import tokenizer as tkn
 
 links_visited = set()
 
 def scraper(url, resp):
     # do something with resp
-    links_visited.add(url)
-    links = extract_next_links(url, resp)
-    return [link for link in links if is_valid(link)]
+    if resp.status == 200:
+        links_visited.add(url)
+        reqs = requests.get(url)
+        soup = BeautifulSoup(reqs.text, 'html.parser')
+        # print("TEXT ON THE WEBPAGE:", soup.get_text()) # to get the text on a webpage
+        tkns = tkn.tokenize(soup.get_text())
+        if len(tkns) >= 199:
+            print(len(tkns))
+            links = extract_next_links(url, resp)
+            return [link for link in links if is_valid(link)]
 
 def extract_next_links(url, resp):
     # do something with resp
-    reqs = requests.get(url)
     
-    soup = BeautifulSoup(reqs.text, 'html.parser')
-    print("TEXT ON THE WEBPAGE:", soup.get_text()) # to get the text on a webpage
-
     urls = []
+    reqs = requests.get(url)
+    soup = BeautifulSoup(reqs.text, 'html.parser')
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         urls.append(link.get('href'))
     return urls
@@ -41,7 +47,8 @@ def is_valid(url):
            # re.search(".cs.uci.edu", parsed.netloc) or 
            # re.search(".informatics.uci.edu", parsed.netloc) or 
            # re.search(".stat.uci.edu", parsed.netloc) or 
-        
+        if (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("page_id=",parsed.query)):
+            return False
             #return False
         # print("parsed:", parsed)
         return not re.match(
