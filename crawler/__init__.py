@@ -3,7 +3,7 @@ from crawler.frontier import Frontier
 from crawler.worker import Worker
 
 # this set it going to store all of the URLs we visit without the fragment section
-# unique_URLs = set() # will be unique to each crawler
+unique_URLs = set() # will be unique to each crawler
 
 class Crawler(object):
     def __init__(self, config, restart, frontier_factory=Frontier, worker_factory=Worker):

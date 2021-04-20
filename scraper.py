@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
 import tokenizer as tkn
+import crawler
 
 links_visited = set()
 
