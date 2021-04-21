@@ -23,22 +23,25 @@ def tokenize(text_string):
     return result
 
 # time complexity: O(N). We are just going through N tokens
-def computeWordFreq(tokenList):
-    freqs = {}
+def computeWordFreq(tokenList, freqs):
     for token in tokenList:
         if token in freqs:
             freqs[token] += 1
-        else:
+        else:   
             freqs[token] = 1
-    return freqs
+    #return freqs
 
 # time complexity: O(N log N). Sorting the items in the dictionary
 # takes the longest for this function
-def printFreq(freqMap):
+def freqs(freqMap):
     # adapted from: https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
     wordRank = sorted(freqMap.items(), key = lambda kv:(kv[1], kv[0]), reverse = True)
-    for word in wordRank:
-        print(word[0],"->",word[1])
+    ans = []
+    for key, value in wordRank: # CHANGE BACK LATERRRRRRR
+        ans.append(key)
+    return ans
+    #for word in wordRank:
+        #print(word[0],"->",word[1])
 
 # def commonTokens(txt1, txt2):
 #     tkList_1 = set(pa.tokenize(txt1))
