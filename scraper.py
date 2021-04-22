@@ -20,11 +20,11 @@ def scraper(url, resp):
         
         soup = BeautifulSoup(reqs.text, 'html.parser')
         wrds = soup.get_text()
-        if len(wrds.split()) < 200 or len(wrds.split()) > 15000:
+        if len(wrds.split()) < 200 or len(wrds.split()) > 50000:
             return
         
         tkns = tkn.tokenize(wrds)
-        if len(tkns) >= 200 and len(tkns) <= 15000:
+        if len(tkns) >= 200 and len(tkns) <= 50000:
             # 1. for unique URLs
             crawler.unique_URLs.add(url)
             # print("     ", url)
@@ -80,7 +80,7 @@ def is_valid(url):
             return False
         
         # for traps
-        
+
         if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
             return False
         
