@@ -71,8 +71,8 @@ def extract_next_links(url, resp):
     soup = BeautifulSoup(reqs.text, 'html.parser')
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
-        if pulled[0] == '/': # path on website
-            new_url = "https://" + parsed.netloc
+        if len(pulled) > 0 and pulled[0] == '/': # path on website
+            new_url = "https://" + parsed.netloc + pulled
             urls.append(urldefrag(new_url)[0])
         else:
             urls.append(pulled)
@@ -97,8 +97,8 @@ def is_valid(url):
             return False
         
         # for traps
-        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
-            return False
+        # if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+        #     return False
         
         if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page/",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
