@@ -5,10 +5,6 @@ from utils import get_logger
 from scraper import scraper
 import time
 
-# added these imports
-import crawler
-from urllib.parse import urlparse, urldefrag
-
 class Worker(Thread):
     def __init__(self, worker_id, config, frontier):
         self.logger = get_logger(f"Worker-{worker_id}", "Worker")
@@ -19,11 +15,7 @@ class Worker(Thread):
     # called in __init__.py 
     def run(self):
         while True:
-            tbd_url = self.frontier.get_tbd_url() # gets the next URL to be downloaded from the frontier
-
-            # this will add to the global set in __init__ which keeps track of all visited URLs
-            no_fragment = urldefrag(tbd_url)
-            crawler.unique_URLs.add(no_fragment)
+            tbd_url = self.frontier.get_tbd_url() # gets the next URL to be downloaded from the frontier            
             
             if not tbd_url: # if there are no more URLS then we are done!
                 self.logger.info("Frontier is empty. Stopping Crawler.")

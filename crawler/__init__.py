@@ -4,6 +4,10 @@ from crawler.worker import Worker
 
 # this set it going to store all of the URLs we visit without the fragment section
 unique_URLs = set() # will be unique to each crawler
+longest = [0,""] # 0 = length, 1 = url
+most_common = dict()
+subdomains = dict()
+len_info = open("lens.txt","w")
 
 class Crawler(object):
     def __init__(self, config, restart, frontier_factory=Frontier, worker_factory=Worker):
@@ -12,8 +16,6 @@ class Crawler(object):
         self.frontier = frontier_factory(config, restart)
         self.workers = list()
         self.worker_factory = worker_factory
-        # unique_URLs = set()
-        # self.unique_URLs = set() # added apr 19
 
     def start_async(self):
         self.workers = [
