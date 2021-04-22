@@ -1,5 +1,5 @@
 import re
-from urllib.parse import urlparse
+from urllib.parse import urlparse,urldefrag
 import requests
 from bs4 import BeautifulSoup
 import tokenizer as tkn
@@ -10,11 +10,19 @@ links_visited = set()
 def scraper(url, resp):
     # do something with resp
     if resp.status == 200:
-        links_visited.add(url)
         reqs = requests.get(url)
+        parsed = urlparse(url)
+        if parsed.fragment != None and parsed.fragment != "":
+            url = urldefrag(url)[0] # defragments the URL that is the parameter
+            print("AHAHA: ", url)
+
+        links_visited.add(url)
+        
         soup = BeautifulSoup(reqs.text, 'html.parser')
         tkns = tkn.tokenize(soup.get_text())
-        if len(tkns) >= 200:
+        if len(tkns) >= 200 and len(tkns) <= 50000:
+            crawler.unique_URLs.add(url)
+            print("     ", url)
             print(len(tkns))
             crawler.len_info.write(f"{len(tkns)}\n")
             # 2. keep track of longest page in terms of words
@@ -26,7 +34,7 @@ def scraper(url, resp):
             tkn.computeWordFreq(tkns, crawler.most_common)
 
             # 4. how many .ics.uci.edu subdomains
-            parsed = urlparse(url)
+            
             if re.search(".ics.uci.edu", parsed.netloc):
                 new_url = parsed.scheme + "://" + parsed.netloc
                 if new_url not in crawler.subdomains:
@@ -54,14 +62,18 @@ def is_valid(url):
         if parsed.scheme not in set(["http", "https"]):
             return False
 
+        if parsed.fragment != None and parsed.fragment != "":
+            return False
+            # url = urldefrag(url)[0] # defragments the URL that is the parameter
+
         if not (re.search(".ics.uci.edu", parsed.netloc) or re.search(".cs.uci.edu", parsed.netloc) or 
             re.search(".informatics.uci.edu", parsed.netloc) or re.search(".stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
             return False
         # for traps
-        if (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("page_id=",parsed.query)):
+        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
-        return not re.match(
+        return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
             + r"|png|tiff?|mid|mp2|mp3|mp4"
             + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
@@ -69,7 +81,16 @@ def is_valid(url):
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
             + r"|epub|dll|cnf|tgz|sha1"
             + r"|thmx|mso|arff|rtf|jar|csv"
-            + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.path.lower())
+            + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.path.lower())) 
+            and not (re.match(
+            r".*\.(css|js|bmp|gif|jpe?g|ico"
+            + r"|png|tiff?|mid|mp2|mp3|mp4"
+            + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
+            + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
+            + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
+            + r"|epub|dll|cnf|tgz|sha1"
+            + r"|thmx|mso|arff|rtf|jar|csv"
+            + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.query.lower())))
 
     except TypeError:
         print ("TypeError for ", parsed)

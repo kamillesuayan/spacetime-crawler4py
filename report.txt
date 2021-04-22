@@ -1,5 +1,5 @@
-NUMBER OF UNIQUE PAGES 2
-LONGEST PAGE https://www.ics.uci.edu/~dillenco/officehrs
-LONGEST PAGE LENGTH 83
-MOST COMMON WORDS: ['office', 'michael', 'dillencourt', 'students', 'questions', 'prof', 'hrs', 'find', 'dot', 'dbh', 'class', 'available', '4086', '2018', '161', 'will', 'wherehow', 'wednesday', 'university', 'uci', 'think', 'stay', 'science', 'quarter', 'please', 'patient', 'outside', 'november', 'monday', 'modified', 'minutes', 'mailing', 'long', 'lecture', 'late', 'last', 'irvine', 'inside', 'immediately', 'ics', 'hour', 'friday', 'fall', 'ends', 'email', 'either', 'edu', 'dillenco', 'department', 'computer', 'compsci', 'classroom', 'california', 'buffer', 'b', 'answer', 'adequate', 'address', '5', '4', '315', '260', '25minute', '250'] 
-https://www.ics.uci.edu, 1
+NUMBER OF UNIQUE PAGES 6
+LONGEST PAGE DefragResult(url='https://evoke.ics.uci.edu/bietz-and-gregory-speak-at-moving-genomics-from-bench-to-bedside-workshop/', fragment='comment-71996')
+LONGEST PAGE LENGTH 5354
+MOST COMMON WORDS: ['reply', 'says', '2021', 'pm', '2020', 'april', 'data', 'march', 'great', 'information', 'article', 'will', 'post', 'design', 'lab', 'evoke', 'thanks', 'really', 'blog', 'site', 'gregory', 'good', '2014', 'news', 'bietz', 'like', 'personal', 'values', 'knobel', '2013', 'learn', 'cory', 'website', 'studio', 'genomics', 'may', 'february', '21', 'sharing', 'web', 'research', 'keep', 'work', 'thank', 'online', 'bench', 'bedside', 'october', 'moving', 'knowledge'] 
+https://evoke.ics.uci.edu, 6
