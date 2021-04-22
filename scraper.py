@@ -65,12 +65,19 @@ def scraper(url, resp):
 
 def extract_next_links(url, resp):
     # do something with resp
-    
+    parsed = urlparse(url)
     urls = []
     reqs = requests.get(url)
     soup = BeautifulSoup(reqs.text, 'html.parser')
     for link in soup.find_all('a'): # gets all the links that are on the webpage
-        urls.append(link.get('href'))
+        pulled = link.get('href')
+        if pulled[0] == '/': # path on website
+            new_url = "https://" + parsed.netloc
+            urls.append(urldefrag(new_url)[0])
+        else:
+            urls.append(pulled)
+
+
     return urls
 
 def is_valid(url):
