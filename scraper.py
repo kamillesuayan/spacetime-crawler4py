@@ -20,11 +20,11 @@ def scraper(url, resp):
         
         soup = BeautifulSoup(reqs.text, 'html.parser')
         wrds = soup.get_text()
-        if len(wrds.split()) < 300 or len(wrds.split()) > 50000:
+        if len(wrds.split()) < 200 or len(wrds.split()) > 15000:
             return
         
         tkns = tkn.tokenize(wrds)
-        if len(tkns) >= 300 and len(tkns) <= 50000:
+        if len(tkns) >= 200 and len(tkns) <= 15000:
             # 1. for unique URLs
             crawler.unique_URLs.add(url)
             # print("     ", url)
@@ -40,8 +40,11 @@ def scraper(url, resp):
 
             # 4. how many .ics.uci.edu subdomains
             
-            if re.search(".ics.uci.edu", parsed.netloc):
-                new_url = parsed.scheme + "://" + parsed.netloc
+            if re.search("\.ics.uci.edu", parsed.netloc):
+                if re.match("www.",parsed.netloc):
+                    new_url = parsed.netloc.strip("www.")
+                else:
+                    new_url = parsed.netloc
                 if new_url not in crawler.subdomains:
                     crawler.subdomains[new_url] = 1
                 else:
@@ -76,9 +79,11 @@ def is_valid(url):
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
             return False
         
+        # for traps
+        
         if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
             return False
-        # for traps
+        
         if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
         return (not  (re.match(
