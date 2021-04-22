@@ -71,8 +71,8 @@ def extract_next_links(url, resp):
     soup = BeautifulSoup(reqs.text, 'html.parser')
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
-        if type(pulled) != None:
-            if pulled[0] == '/':
+        if pulled != None:
+            if len(pulled) > 0 and pulled[0] == '/':
                 new_url = "https://" + parsed.netloc + pulled
                 urls.append(new_url)
             else: 
