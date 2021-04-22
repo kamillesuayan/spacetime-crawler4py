@@ -71,14 +71,12 @@ def extract_next_links(url, resp):
     soup = BeautifulSoup(reqs.text, 'html.parser')
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
-        if pulled != None:
-            if len(pulled) > 0 and pulled[0] == '/':
-                new_url = "https://" + parsed.netloc + pulled
-                urls.append(new_url)
-            else: 
-                urls.append(pulled)
-
-
+        parsed_pulled = urlparse(pulled)
+        if (parsed_pulled.scheme == "https://" or parsed_pulled.scheme == "http://") and parsed_pulled.netloc == None and parsed_pulled.path != None:
+            new_url = "https://" + parsed.netloc + parsed_pulled.path
+            urls.append(new_url)
+        else:
+            urls.append(pulled)
     return urls
 
 def is_valid(url):
