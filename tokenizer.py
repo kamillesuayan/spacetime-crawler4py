@@ -15,6 +15,8 @@ def tokenize(text_string):
     result = []
     stp = stop_word()
     for word in text_string.split():
+        if len(result) >= 50001:
+            return result
         # print(word.lower() not in stp)
         #if word.lower().strip() not in stp:
         c_word = re.sub("[^a-zA-Z0-9\s]", "",word).lower() 

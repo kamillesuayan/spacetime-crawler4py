@@ -21,6 +21,7 @@ def scraper(url, resp):
         soup = BeautifulSoup(reqs.text, 'html.parser')
         tkns = tkn.tokenize(soup.get_text())
         if len(tkns) >= 200 and len(tkns) <= 50000:
+            # 1. for unique URLs
             crawler.unique_URLs.add(url)
             print("     ", url)
             print(len(tkns))
@@ -66,12 +67,13 @@ def is_valid(url):
             return False
             # url = urldefrag(url)[0] # defragments the URL that is the parameter
 
-        if not (re.search(".ics.uci.edu", parsed.netloc) or re.search(".cs.uci.edu", parsed.netloc) or 
-            re.search(".informatics.uci.edu", parsed.netloc) or re.search(".stat.uci.edu", parsed.netloc) or
+        # accounting for .eecs.uci.edu for some reason
+        if not (re.search("\.ics.uci.edu", parsed.netloc) or re.search("\.cs.uci.edu", parsed.netloc) or 
+            re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
             return False
         # for traps
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("page_id=",parsed.query)):
+        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("/events/",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
@@ -81,7 +83,7 @@ def is_valid(url):
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
             + r"|epub|dll|cnf|tgz|sha1"
             + r"|thmx|mso|arff|rtf|jar|csv"
-            + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.path.lower())) 
+            + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.path.lower())) 
             and not (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
             + r"|png|tiff?|mid|mp2|mp3|mp4"
@@ -90,7 +92,7 @@ def is_valid(url):
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
             + r"|epub|dll|cnf|tgz|sha1"
             + r"|thmx|mso|arff|rtf|jar|csv"
-            + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.query.lower())))
+            + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.query.lower())))
 
     except TypeError:
         print ("TypeError for ", parsed)
