@@ -97,8 +97,8 @@ def is_valid(url):
             return False
         
         # for traps
-        # if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
-        #     return False
+        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+            return False
         
         if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page/",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
