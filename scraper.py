@@ -7,6 +7,16 @@ import crawler
 
 links_visited = set()
 
+def stop_word():
+    file = open('stop.txt', 'r')
+    words = []
+    for line in file:
+        words.append(line.strip('\n'))
+    file.close()
+    return words
+
+stp_wrds = stop_word()
+
 def scraper(url, resp):
     # do something with resp
     if resp.status == 200:
@@ -19,16 +29,16 @@ def scraper(url, resp):
         links_visited.add(url)
         
         soup = BeautifulSoup(reqs.text, 'html.parser')
+        # 1. for unique URLs
         wrds = soup.get_text()
+
+        crawler.unique_URLs.add(url)
         if len(wrds.split()) < 200 or len(wrds.split()) > 50000:
             return
         
-        tkns = tkn.tokenize(wrds)
+        tkns = tkn.tokenize(wrds, stp_wrds)
         if len(tkns) >= 200 and len(tkns) <= 50000:
-            # 1. for unique URLs
-            crawler.unique_URLs.add(url)
-            # print("     ", url)
-            # print(len(tkns))
+            
             crawler.len_info.write(f"{len(tkns)}\n")
             # 2. keep track of longest page in terms of words
             if crawler.longest[0] < len(tkns):
@@ -80,11 +90,10 @@ def is_valid(url):
             return False
         
         # for traps
-
-        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
-            return False
+        # if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+        #     return False
         
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
+        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page/",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"

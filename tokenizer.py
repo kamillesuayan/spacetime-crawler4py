@@ -1,19 +1,10 @@
 import sys
 import re
 
-def stop_word():
-    file = open('stop.txt', 'r')
-    words = []
-    for line in file:
-        words.append(line.strip('\n'))
-    file.close()
-    return words
-
 # time complexity: O(N*M). The nested for-loops iterate through each line,
 # and then through each word on the lines, resulting in O(N*M) runtime complexity
-def tokenize(text_string):
+def tokenize(text_string, stp):
     result = []
-    stp = stop_word()
     for word in text_string.split():
         if len(result) >= 50001:
             return result
