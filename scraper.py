@@ -14,17 +14,21 @@ def scraper(url, resp):
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
             url = urldefrag(url)[0] # defragments the URL that is the parameter
-            print("AHAHA: ", url)
+            # print("AHAHA: ", url)
 
         links_visited.add(url)
         
         soup = BeautifulSoup(reqs.text, 'html.parser')
-        tkns = tkn.tokenize(soup.get_text())
-        if len(tkns) >= 200 and len(tkns) <= 50000:
+        wrds = soup.get_text()
+        if len(wrds.split()) < 300 or len(wrds.split()) > 50000:
+            return
+        
+        tkns = tkn.tokenize(wrds)
+        if len(tkns) >= 300 and len(tkns) <= 50000:
             # 1. for unique URLs
             crawler.unique_URLs.add(url)
-            print("     ", url)
-            print(len(tkns))
+            # print("     ", url)
+            # print(len(tkns))
             crawler.len_info.write(f"{len(tkns)}\n")
             # 2. keep track of longest page in terms of words
             if crawler.longest[0] < len(tkns):
@@ -67,13 +71,15 @@ def is_valid(url):
             return False
             # url = urldefrag(url)[0] # defragments the URL that is the parameter
 
-        # accounting for .eecs.uci.edu for some reason
         if not (re.search("\.ics.uci.edu", parsed.netloc) or re.search("\.cs.uci.edu", parsed.netloc) or 
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
             return False
+        
+        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+            return False
         # for traps
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("/events/",parsed.path)) or (re.search("page_id=",parsed.query)):
+        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"

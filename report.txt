@@ -1,5 +1,9 @@
-NUMBER OF UNIQUE PAGES 6
-LONGEST PAGE DefragResult(url='https://evoke.ics.uci.edu/bietz-and-gregory-speak-at-moving-genomics-from-bench-to-bedside-workshop/', fragment='comment-71996')
-LONGEST PAGE LENGTH 5354
-MOST COMMON WORDS: ['reply', 'says', '2021', 'pm', '2020', 'april', 'data', 'march', 'great', 'information', 'article', 'will', 'post', 'design', 'lab', 'evoke', 'thanks', 'really', 'blog', 'site', 'gregory', 'good', '2014', 'news', 'bietz', 'like', 'personal', 'values', 'knobel', '2013', 'learn', 'cory', 'website', 'studio', 'genomics', 'may', 'february', '21', 'sharing', 'web', 'research', 'keep', 'work', 'thank', 'online', 'bench', 'bedside', 'october', 'moving', 'knowledge'] 
-https://evoke.ics.uci.edu, 6
+NUMBER OF UNIQUE PAGES 57
+LONGEST PAGE https://www.ics.uci.edu/community/news
+LONGEST PAGE LENGTH 3132
+MOST COMMON WORDS: ['bren', 'ics', 'school', 'uci', 'data', 'computer', '2020', '2021', 'statistics', 'research', 'policies', 'information', 'news', 'science', 'students', 'computing', 'support', 'graduate', 'donald', 'student', 'contact', 'faculty', 'academic', 'will', 'university', 'sciences', 'can', 'events', 'use', 'new', 'irvine', '3', 'course', 'may', '1', 'us', 'lab', 'visit', 'learning', 'deliveries', 'hall', 'directory', 'staff', 'policy', 'email', 'undergraduate', 'please', 'contributions', 'home', 'county'] 
+http://coronavirustwittermap.ics.uci.edu, 1
+http://sli.ics.uci.edu, 7
+http://www.ics.uci.edu, 12
+https://grape.ics.uci.edu, 1
+https://www.ics.uci.edu, 19
