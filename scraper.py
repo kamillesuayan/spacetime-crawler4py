@@ -72,7 +72,7 @@ def extract_next_links(url, resp):
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
         parsed_pulled = urlparse(pulled)
-        if (parsed_pulled.scheme == "https://" or parsed_pulled.scheme == "http://") and parsed_pulled.netloc == None and parsed_pulled.path != None:
+        if parsed_pulled.scheme == None and parsed_pulled.netloc == None and parsed_pulled.path != None:
             new_url = "https://" + parsed.netloc + parsed_pulled.path
             urls.append(new_url)
         else:
