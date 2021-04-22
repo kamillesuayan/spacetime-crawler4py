@@ -71,7 +71,7 @@ def extract_next_links(url, resp):
     soup = BeautifulSoup(reqs.text, 'html.parser')
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
-        if len(pulled) > 0 and pulled[0] == '/': # path on website
+        if pulled != None and len(pulled) > 0 and pulled[0] == '/': # path on website
             new_url = "https://" + parsed.netloc + pulled
             urls.append(urldefrag(new_url)[0])
         else:
@@ -100,8 +100,14 @@ def is_valid(url):
         # if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
         #     return False
         
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page/",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
+        if (re.search("replytocom=",parsed.query)) or 
+           (re.search("share=",parsed.query)) or 
+           (re.search("/page/",parsed.path)) or 
+           (re.search("/events",parsed.path)) or 
+           (re.search("page_id=",parsed.query)) or
+           (re.search("version=",parsed.query)): 
             return False
+        
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
             + r"|png|tiff?|mid|mp2|mp3|mp4"

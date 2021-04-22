@@ -7,6 +7,9 @@ from utils.config import Config
 from crawler import * 
 import tokenizer as tk
 
+# ana added this 
+import time # to keep track of how long the program takes to run
+
 def main(config_file, restart):
     cparser = ConfigParser()
     cparser.read(config_file)
@@ -47,10 +50,11 @@ def main(config_file, restart):
     
 
 if __name__ == "__main__":
+    start_time = time.time()
     parser = ArgumentParser()
     parser.add_argument("--restart", action="store_true", default=False)
     parser.add_argument("--config_file", type=str, default="config.ini")
     args = parser.parse_args()
     main(args.config_file, args.restart)
-
     
+    print(f"--- THE PROGRAM TOOK {(time.time() - start_time)} SECONDS ---")

@@ -15,6 +15,7 @@ class Worker(Thread):
     # called in __init__.py 
     def run(self):
         while True:
+            start_time = time.time()
             tbd_url = self.frontier.get_tbd_url() # gets the next URL to be downloaded from the frontier            
             
             if not tbd_url: # if there are no more URLS then we are done!
@@ -25,6 +26,10 @@ class Worker(Thread):
             self.logger.info(
                 f"Downloaded {tbd_url}, status <{resp.status}>, "
                 f"using cache {self.config.cache_server}.")
+            
+            self.logger.info(
+                f"      {(time.time() - start_time)} seconds have passed\n")
+
             scraped_urls = scraper(tbd_url, resp) # call to the scraper
             if scraped_urls != None:
                 for scraped_url in scraped_urls:

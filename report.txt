@@ -1,9 +1,6 @@
-NUMBER OF UNIQUE PAGES 57
-LONGEST PAGE https://www.ics.uci.edu/community/news
-LONGEST PAGE LENGTH 3132
-MOST COMMON WORDS: ['bren', 'ics', 'school', 'uci', 'data', 'computer', '2020', '2021', 'statistics', 'research', 'policies', 'information', 'news', 'science', 'students', 'computing', 'support', 'graduate', 'donald', 'student', 'contact', 'faculty', 'academic', 'will', 'university', 'sciences', 'can', 'events', 'use', 'new', 'irvine', '3', 'course', 'may', '1', 'us', 'lab', 'visit', 'learning', 'deliveries', 'hall', 'directory', 'staff', 'policy', 'email', 'undergraduate', 'please', 'contributions', 'home', 'county'] 
-http://coronavirustwittermap.ics.uci.edu, 1
-http://sli.ics.uci.edu, 7
-http://www.ics.uci.edu, 12
-https://grape.ics.uci.edu, 1
-https://www.ics.uci.edu, 19
+NUMBER OF UNIQUE PAGES 17
+LONGEST PAGE https://grape.ics.uci.edu/wiki/asterix/wiki/stats170ab-2018
+LONGEST PAGE LENGTH 1639
+MOST COMMON WORDS: ['statistics', 'data', '2021', 'uci', 'news', 'science', 'research', 'graduate', 'information', '3', 'students', 'years', 'new', 'will', 'computer', '2020', 'ago', 'added', 'department', 'school', 'county', 'april', 'dr', 'donald', 'bren', 'course', 'orange', 'professor', 'current', '15', 'statistical', 'sciences', 'project', 'kb', 'trends', 'master', 'faculty', 'covid19', 'center', 'smyth', 'opportunities', 'directory', 'seminars', 'phd', 'listings', 'degrees', 'ics', 'health', 'student', 'stern'] 
+grape.ics.uci.edu, 1
+ics.uci.edu, 1
