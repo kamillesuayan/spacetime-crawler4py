@@ -24,7 +24,6 @@ def scraper(url, resp):
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
             url = urldefrag(url)[0] # defragments the URL that is the parameter
-            # print("AHAHA: ", url)
 
         links_visited.add(url)
         
@@ -103,12 +102,8 @@ def is_valid(url):
         if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
             return False
         
-<<<<<<< HEAD
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page/",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)) or (re.search("version=",parsed.query)): 
-=======
         # or (re.search("/page/",parsed.path))
-        if (re.search("ical=",parsed.query)) or (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
->>>>>>> e6b09055a40115cbd58c5baed48ad6fd48324501
+        if (re.search("ical=",parsed.query)) or (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)) or (re.search("/event/",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
         
         return (not  (re.match(
