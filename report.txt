@@ -1,6 +1,4 @@
-NUMBER OF UNIQUE PAGES 17
-LONGEST PAGE https://grape.ics.uci.edu/wiki/asterix/wiki/stats170ab-2018
-LONGEST PAGE LENGTH 1639
-MOST COMMON WORDS: ['statistics', 'data', '2021', 'uci', 'news', 'science', 'research', 'graduate', 'information', '3', 'students', 'years', 'new', 'will', 'computer', '2020', 'ago', 'added', 'department', 'school', 'county', 'april', 'dr', 'donald', 'bren', 'course', 'orange', 'professor', 'current', '15', 'statistical', 'sciences', 'project', 'kb', 'trends', 'master', 'faculty', 'covid19', 'center', 'smyth', 'opportunities', 'directory', 'seminars', 'phd', 'listings', 'degrees', 'ics', 'health', 'student', 'stern'] 
-grape.ics.uci.edu, 1
-ics.uci.edu, 1
+NUMBER OF UNIQUE PAGES 0
+LONGEST PAGE 
+LONGEST PAGE LENGTH 0
+MOST COMMON WORDS: [] 

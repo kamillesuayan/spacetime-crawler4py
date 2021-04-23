@@ -26,9 +26,6 @@ class Worker(Thread):
             self.logger.info(
                 f"Downloaded {tbd_url}, status <{resp.status}>, "
                 f"using cache {self.config.cache_server}.")
-            
-            self.logger.info(
-                f"      {(time.time() - start_time)} seconds have passed\n")
 
             scraped_urls = scraper(tbd_url, resp) # call to the scraper
             if scraped_urls != None:
