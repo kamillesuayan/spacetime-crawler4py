@@ -19,7 +19,7 @@ stp_wrds = stop_word()
 
 def scraper(url, resp):
     # do something with resp
-    if resp.status == 200:
+    if resp.status >= 200 and resp.status <= 202:
         reqs = requests.get(url)
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
@@ -31,6 +31,9 @@ def scraper(url, resp):
         soup = BeautifulSoup(reqs.text, 'html.parser')
         # 1. for unique URLs
         wrds = soup.get_text()
+        
+        if url in crawler.unique_URLs:
+            return
 
         crawler.unique_URLs.add(url)
         if len(wrds.split()) < 200 or len(wrds.split()) > 50000:
@@ -75,6 +78,7 @@ def extract_next_links(url, resp):
         if parsed_pulled.scheme == None and parsed_pulled.netloc == None and parsed_pulled.path != None:
             new_url = "https://" + parsed.netloc + parsed_pulled.path
             urls.append(new_url)
+            crawler.len_info.write(f"new_url: {new_url}\n")
         else:
             urls.append(pulled)
     return urls
@@ -96,10 +100,11 @@ def is_valid(url):
             return False
         
         # for traps
-        # if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
-        #     return False
+        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+            return False
         
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/page/",parsed.path)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
+        # or (re.search("/page/",parsed.path))
+        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
