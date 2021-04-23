@@ -104,7 +104,7 @@ def is_valid(url):
             return False
         
         # or (re.search("/page/",parsed.path))
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
+        if (re.search("ical=",parsed.query)) or (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)) or (re.search("page_id=",parsed.query)):
             return False
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
