@@ -1,5 +1,5 @@
 from threading import Thread
-
+import requests
 from utils.download import download
 from utils import get_logger
 from scraper import scraper
