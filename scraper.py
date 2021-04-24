@@ -21,7 +21,7 @@ stp_wrds = stop_word()
 def scraper(url, resp):
     # do something with resp
     if resp.status >= 200 and resp.status <= 202:
-        reqs = requests.get(url,timeout=10)
+        reqs = requests.get(url,timeout=5)
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
             url = urldefrag(url)[0] # defragments the URL that is the parameter
@@ -71,13 +71,14 @@ def extract_next_links(url, resp):
     # do something with resp
     # parsed = urlparse(url)
     urls = []
-    reqs = requests.get(url,timeout=10)
+    reqs = requests.get(url,timeout=5)
     soup = BeautifulSoup(reqs.text, 'html.parser')
     # base = "https://" + parsed.netloc
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
+        parsed_pulled = urlparse(pulled)
         new_url = urllib.parse.urljoin(url,pulled)
-        urls.append(new_url)
+        urls.append(new_url) # we made it through with no redirects!
     return urls
 
 def is_valid(url):
@@ -95,7 +96,9 @@ def is_valid(url):
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
             return False
-        if (re.search("/stayconnected/stayconnected/index.php",parsed.path)):
+        if (re.search("/stayconnected",parsed.path)): # INFINITE TRAP - NEED HELP
+            return False
+        if (re.search("/honors/",parsed.path)): # INFINITE TRAP - NEED HELP
             return False
         
         # for traps
