@@ -5,6 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 import tokenizer as tkn
 import crawler
+import re
+from simhash import Simhash, SimhashIndex
 
 links_visited = set()
 
@@ -18,31 +20,42 @@ def stop_word():
 
 stp_wrds = stop_word()
 
+def get_features(s):
+    width = 3
+    s = s.lower()
+    s = re.sub(r'[^\w]+', '', s)
+    return [s[i:i + width] for i in range(max(len(s) - width + 1, 1))]
+
+objs = dict()
+index = SimhashIndex(objs, k=10) # create index
+
 def scraper(url, resp):
     # do something with resp
-    if resp.status >= 200 and resp.status <= 202:
-        reqs = requests.get(url,timeout=5)
+    if resp.status >= 200 and resp.status <= 202 and (url not in links_visited):
+        reqs = requests.get(url,timeout=15)
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
             url = urldefrag(url)[0] # defragments the URL that is the parameter
             # print("AHAHA: ", url)
-
-        links_visited.add(url)
-        
         soup = BeautifulSoup(reqs.text, 'html.parser')
-        # 1. for unique URLs
         wrds = soup.get_text()
         
         if url in crawler.unique_URLs:
             return
 
+        # 1. for unique URLs
         crawler.unique_URLs.add(url)
         if len(wrds.split()) < 200 or len(wrds.split()) > 50000:
             return
         
         tkns = tkn.tokenize(wrds, stp_wrds)
+
         if len(tkns) >= 200 and len(tkns) <= 50000:
-            
+            s1 = Simhash(get_features(wrds))
+            if len(index.get_near_dups(s1)) > 1:
+                print(url,len(index.get_near_dups(s1)))
+                return
+            index.add(len(crawler.unique_URLs), s1)
             crawler.len_info.write(f"{len(tkns)}\n")
             # 2. keep track of longest page in terms of words
             if crawler.longest[0] < len(tkns):
@@ -66,12 +79,12 @@ def scraper(url, resp):
 
             links = extract_next_links(url, resp)
             return [link for link in links if is_valid(link)]
+    return
 
 def extract_next_links(url, resp):
-    # do something with resp
     # parsed = urlparse(url)
     urls = []
-    reqs = requests.get(url,timeout=5)
+    reqs = requests.get(url,timeout=15)
     soup = BeautifulSoup(reqs.text, 'html.parser')
     # base = "https://" + parsed.netloc
     for link in soup.find_all('a'): # gets all the links that are on the webpage
@@ -96,33 +109,10 @@ def is_valid(url):
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
             return False
-        if (re.search("/stayconnected",parsed.path)): # INFINITE TRAP - NEED HELP
-            return False
-        if (re.search("/honors/",parsed.path)): # INFINITE TRAP - NEED HELP
-            return False
-        
-        # for traps
-        # if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
-        #     return False
 
         if (parsed.netloc != "ics.uci.edu") and (not re.search("community/news",parsed.path)) and (parsed.query != ''):
             return False
         
-        # or (re.search("/page/",parsed.path)) or (re.search("page_id=",parsed.query))
-        # if (re.search("action=login",parsed.query)) or \
-        # (re.search("action=download",parsed.query)) or \
-        # (re.search("seminar_id=",parsed.query)) or \
-        # (re.search("precision=",parsed.query)) or \
-        # (re.search("replytocom=",parsed.query)) or \
-        # (re.search("share=",parsed.query)) or \
-        # (re.search("/events",parsed.path)) or \
-        # (re.search("format=txt",parsed.query)) or \
-        # (re.search("version=",parsed.query)) or \
-        # (re.search("zip-attachment",parsed.path)) or \
-        # (re.search("ical=",parsed.query)) or \
-        # (re.search("do=diff",parsed.query)):
-        #     return False
-
         if (re.search("/events",parsed.path)) or (re.search("zip-attachment",parsed.path)):
             return False
             
