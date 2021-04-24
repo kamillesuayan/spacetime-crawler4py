@@ -21,7 +21,7 @@ stp_wrds = stop_word()
 def scraper(url, resp):
     # do something with resp
     if resp.status >= 200 and resp.status <= 202:
-        reqs = requests.get(url)
+        reqs = requests.get(url,timeout=10)
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
             url = urldefrag(url)[0] # defragments the URL that is the parameter
@@ -71,7 +71,7 @@ def extract_next_links(url, resp):
     # do something with resp
     # parsed = urlparse(url)
     urls = []
-    reqs = requests.get(url)
+    reqs = requests.get(url,timeout=10)
     soup = BeautifulSoup(reqs.text, 'html.parser')
     # base = "https://" + parsed.netloc
     for link in soup.find_all('a'): # gets all the links that are on the webpage
@@ -94,6 +94,8 @@ def is_valid(url):
         if not (re.search("\.ics.uci.edu", parsed.netloc) or re.search("\.cs.uci.edu", parsed.netloc) or 
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
+            return False
+        if (re.search("/stayconnected/stayconnected/index.php",parsed.path)):
             return False
         
         # for traps
