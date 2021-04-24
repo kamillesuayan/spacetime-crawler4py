@@ -5,6 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 import tokenizer as tkn
 import crawler
+import re
+from simhash import Simhash, SimhashIndex
 
 links_visited = set()
 
@@ -18,31 +20,44 @@ def stop_word():
 
 stp_wrds = stop_word()
 
+def get_features(s):
+    width = 3
+    s = s.lower()
+    s = re.sub(r'[^\w]+', '', s)
+    return [s[i:i + width] for i in range(max(len(s) - width + 1, 1))]
+
+objs = dict()
+index = SimhashIndex(objs, k=6) # create index
+
 def scraper(url, resp):
     # do something with resp
-    if resp.status >= 200 and resp.status <= 202:
-        reqs = requests.get(url)
+    if resp.status >= 200 and resp.status <= 202 and (url not in links_visited):
+        reqs = requests.get(url,timeout=60)
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
             url = urldefrag(url)[0] # defragments the URL that is the parameter
 
         links_visited.add(url)
         
+            # print("AHAHA: ", url)
         soup = BeautifulSoup(reqs.text, 'html.parser')
-        # 1. for unique URLs
         wrds = soup.get_text()
-        
-        if url in crawler.unique_URLs:
-            return
 
-        crawler.unique_URLs.add(url)
-        if len(wrds.split()) < 200 or len(wrds.split()) > 50000:
-            return
+        # 1. for unique URLs
         
+        
+        crawler.len_info.write(f"{url}\n")
+        
+        crawler.unique_URLs.add(url)
         tkns = tkn.tokenize(wrds, stp_wrds)
+
         if len(tkns) >= 200 and len(tkns) <= 50000:
+            s1 = Simhash(get_features(wrds))
+            if len(index.get_near_dups(s1)) > 2:
+                links_visited.add(url)
+                return
+            index.add(len(links_visited), s1)
             
-            crawler.len_info.write(f"{len(tkns)}\n")
             # 2. keep track of longest page in terms of words
             if crawler.longest[0] < len(tkns):
                 crawler.longest[0] = len(tkns)
@@ -63,20 +78,25 @@ def scraper(url, resp):
                 else:
                     crawler.subdomains[new_url] += 1
 
+            links_visited.add(url)
             links = extract_next_links(url, resp)
+            print("     Links Visited Length:", len(links_visited))
+            print("     Unique Links:", len(crawler.unique_URLs))
             return [link for link in links if is_valid(link)]
+    links_visited.add(url)
+    return
 
 def extract_next_links(url, resp):
-    # do something with resp
-    parsed = urlparse(url)
+    # parsed = urlparse(url)
     urls = []
-    reqs = requests.get(url)
+    reqs = requests.get(url,timeout=60)
     soup = BeautifulSoup(reqs.text, 'html.parser')
-    base = "https://" + parsed.netloc
+    # base = "https://" + parsed.netloc
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
-        new_url = urllib.parse.urljoin(base,pulled)
-        urls.append(new_url)
+        parsed_pulled = urlparse(pulled)
+        new_url = urllib.parse.urljoin(url,pulled)
+        urls.append(new_url) # we made it through with no redirects!
     return urls
 
 def is_valid(url):
@@ -94,15 +114,13 @@ def is_valid(url):
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
             return False
-        
-        # for traps
-        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+
+        if (parsed.netloc != "ics.uci.edu") and (not re.search("community/news",parsed.path)) and (parsed.query != ''):
             return False
         
-        # or (re.search("/page/",parsed.path)) or (re.search("page_id=",parsed.query))
-        if (re.search("action=login",parsed.query)) or (re.search("action=download",parsed.query)) or (re.search("seminar_id=",parsed.query)) or (re.search("precision=",parsed.query)) or (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)):
+        if (re.search("/events",parsed.path)) or (re.search("zip-attachment",parsed.path)):
             return False
-        
+            
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
             + r"|png|tiff?|mid|mp2|mp3|mp4"
@@ -110,17 +128,9 @@ def is_valid(url):
             + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
             + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
-            + r"|thmx|mso|arff|rtf|jar|csv|bam|txt"
+            + r"|thmx|mso|arff|rtf|jar|csv|bam|ipynb"
             + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.path.lower())) 
-            and not (re.match(
-            r".*\.(css|js|bmp|gif|jpe?g|ico"
-            + r"|png|tiff?|mid|mp2|mp3|mp4"
-            + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
-            + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
-            + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
-            + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
-            + r"|thmx|mso|arff|rtf|jar|csv|bam|txt"
-            + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.query.lower())))
+           )
 
     except TypeError:
         print ("TypeError for ", parsed)
