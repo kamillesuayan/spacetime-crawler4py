@@ -101,7 +101,7 @@ def is_valid(url):
             return False
         
         # or (re.search("/page/",parsed.path)) or (re.search("page_id=",parsed.query))
-        if (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)):
+        if (re.search("action=login",parsed.query)) or (re.search("action=download",parsed.query)) or (re.search("seminar_id=",parsed.query)) or (re.search("precision=",parsed.query)) or (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)):
             return False
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
@@ -109,7 +109,7 @@ def is_valid(url):
             + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
             + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
-            + r"|epub|dll|cnf|tgz|sha1|odc|r"
+            + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
             + r"|thmx|mso|arff|rtf|jar|csv|bam|txt"
             + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.path.lower())) 
             and not (re.match(
@@ -118,7 +118,7 @@ def is_valid(url):
             + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
             + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
-            + r"|epub|dll|cnf|tgz|sha1|odc|r"
+            + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
             + r"|thmx|mso|arff|rtf|jar|csv|bam|txt"
             + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.query.lower())))
 
