@@ -22,14 +22,18 @@ class Worker(Thread):
                 self.logger.info("Frontier is empty. Stopping Crawler.")
                 break
             # else we download the URL that was popped off of the frontier
-            resp = download(tbd_url, self.config, self.logger)
-            self.logger.info(
-                f"Downloaded {tbd_url}, status <{resp.status}>, "
-                f"using cache {self.config.cache_server}.")
+            try: 
+                resp = download(tbd_url, self.config, self.logger)
+                self.logger.info(
+                    f"Downloaded {tbd_url}, status <{resp.status}>, "
+                    f"using cache {self.config.cache_server}.")
 
-            scraped_urls = scraper(tbd_url, resp) # call to the scraper
-            if scraped_urls != None:
-                for scraped_url in scraped_urls:
-                    self.frontier.add_url(scraped_url)
-            self.frontier.mark_url_complete(tbd_url)
-            time.sleep(self.config.time_delay)
+                scraped_urls = scraper(tbd_url, resp) # call to the scraper
+                if scraped_urls != None:
+                    for scraped_url in scraped_urls:
+                        self.frontier.add_url(scraped_url)
+                self.frontier.mark_url_complete(tbd_url)
+                time.sleep(self.config.time_delay)
+            except requests.exceptions.RequestException as e:  
+                print("there was a connection ERROR:", e)
+
