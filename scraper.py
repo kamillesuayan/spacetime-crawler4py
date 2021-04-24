@@ -69,14 +69,14 @@ def scraper(url, resp):
 
 def extract_next_links(url, resp):
     # do something with resp
-    parsed = urlparse(url)
+    # parsed = urlparse(url)
     urls = []
     reqs = requests.get(url)
     soup = BeautifulSoup(reqs.text, 'html.parser')
-    base = "https://" + parsed.netloc
+    # base = "https://" + parsed.netloc
     for link in soup.find_all('a'): # gets all the links that are on the webpage
         pulled = link.get('href')
-        new_url = urllib.parse.urljoin(base,pulled)
+        new_url = urllib.parse.urljoin(url,pulled)
         urls.append(new_url)
     return urls
 
@@ -97,12 +97,30 @@ def is_valid(url):
             return False
         
         # for traps
-        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+        # if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
+        #     return False
+
+        if (parsed.netloc != "ics.uci.edu") and (not re.search("community/news",parsed.path)) and (parsed.query != ''):
             return False
         
         # or (re.search("/page/",parsed.path)) or (re.search("page_id=",parsed.query))
-        if (re.search("action=login",parsed.query)) or (re.search("action=download",parsed.query)) or (re.search("seminar_id=",parsed.query)) or (re.search("precision=",parsed.query)) or (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)):
+        # if (re.search("action=login",parsed.query)) or \
+        # (re.search("action=download",parsed.query)) or \
+        # (re.search("seminar_id=",parsed.query)) or \
+        # (re.search("precision=",parsed.query)) or \
+        # (re.search("replytocom=",parsed.query)) or \
+        # (re.search("share=",parsed.query)) or \
+        # (re.search("/events",parsed.path)) or \
+        # (re.search("format=txt",parsed.query)) or \
+        # (re.search("version=",parsed.query)) or \
+        # (re.search("zip-attachment",parsed.path)) or \
+        # (re.search("ical=",parsed.query)) or \
+        # (re.search("do=diff",parsed.query)):
+        #     return False
+
+        if (re.search("/events",parsed.path)) or (re.search("zip-attachment",parsed.path)):
             return False
+            
         return (not  (re.match(
             r".*\.(css|js|bmp|gif|jpe?g|ico"
             + r"|png|tiff?|mid|mp2|mp3|mp4"
@@ -110,17 +128,9 @@ def is_valid(url):
             + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
             + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
-            + r"|thmx|mso|arff|rtf|jar|csv|bam|txt"
+            + r"|thmx|mso|arff|rtf|jar|csv|bam|ipynb"
             + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.path.lower())) 
-            and not (re.match(
-            r".*\.(css|js|bmp|gif|jpe?g|ico"
-            + r"|png|tiff?|mid|mp2|mp3|mp4"
-            + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
-            + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
-            + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
-            + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
-            + r"|thmx|mso|arff|rtf|jar|csv|bam|txt"
-            + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.query.lower())))
+           )
 
     except TypeError:
         print ("TypeError for ", parsed)
