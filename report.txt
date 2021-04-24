@@ -1,3 +1,5 @@
-NUMBER OF UNIQUE PAGES 5251
-LONGEST PAGE https://evoke.ics.uci.edu/viewing-the-world-through-technologys-eyes
-LONGEST PAGE LENGTH 14281
+NUMBER OF UNIQUE PAGES 1
+LONGEST PAGE https://www.ics.uci.edu/~dillenco/officehrs
+LONGEST PAGE LENGTH 83
+MOST COMMON WORDS: ['office', 'michael', 'dillencourt', 'students', 'questions', 'prof', 'hrs', 'find', 'dot', 'dbh', 'class', 'available', 'will', 'wherehow', 'wednesday', 'university', 'uci', 'think', 'stay', 'science', 'quarter', 'please', 'patient', 'outside', 'november', 'monday', 'modified', 'minutes', 'mailing', 'long', 'lecture', 'late', 'last', 'irvine', 'inside', 'immediately', 'ics', 'hour', 'friday', 'fall', 'ends', 'email', 'either', 'edu', 'dillenco', 'department', 'computer', 'compsci', 'classroom', 'california'] 
+ics.uci.edu, 1

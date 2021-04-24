@@ -36,9 +36,10 @@ def freqs(freqMap):
         if not k.isnumeric(): 
             new_wordRank[k] = v
 
+
     ans = []
-    for key, value in new_wordRank: # CHANGE BACK LATERRRRRRR
-        ans.append(key)
+    for k, v in new_wordRank.items(): # CHANGE BACK LATERRRRRRR
+        ans.append(k)
     return ans
     #for word in wordRank:
         #print(word[0],"->",word[1])
