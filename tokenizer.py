@@ -18,10 +18,11 @@ def tokenize(text_string, stp):
 # time complexity: O(N). We are just going through N tokens
 def computeWordFreq(tokenList, freqs):
     for token in tokenList:
-        if token in freqs:
-            freqs[token] += 1
-        else:   
-            freqs[token] = 1
+        if not (re.search(r'\d', token)): # filter out numbers
+            if token in freqs:
+                freqs[token] += 1
+            else:   
+                freqs[token] = 1
     #return freqs
 
 # time complexity: O(N log N). Sorting the items in the dictionary
@@ -44,10 +45,3 @@ def freqs(freqMap):
     #for word in wordRank:
         #print(word[0],"->",word[1])
 
-# def commonTokens(txt1, txt2):
-#     tkList_1 = set(pa.tokenize(txt1))
-#     tkList_2 = set(pa.tokenize(txt2))
-    
-#     freq_intersect = list([word for word in tkList_1 if word in tkList_2])
-#     print(freq_intersect)
-#     print(len(freq_intersect))
