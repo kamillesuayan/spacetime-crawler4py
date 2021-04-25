@@ -21,7 +21,7 @@ def stop_word():
 stp_wrds = stop_word()
 
 def get_features(s):
-    width = 5
+    width = 4
     s = s.lower()
     s = re.sub(r'[^\w]+', '', s)
     return [s[i:i + width] for i in range(max(len(s) - width + 1, 1))]
@@ -119,13 +119,13 @@ def is_valid(url):
             return False
             
         return (not  (re.match(
-            r".*\.(css|js|bmp|gif|jpe?g|ico"
-            + r"|png|tiff?|mid|mp2|mp3|mp4"
-            + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
-            + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
-            + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
-            + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
-            + r"|thmx|mso|arff|rtf|jar|csv|bam|ipynb|pps"
+            r".*\.(css|js|bmp|gif|jpe?g|ico|lsp|pov|mov|svg|ss"
+            + r"|png|tiff?|mid|mp2|mp3|mp4|m|py|hqx|nb|sh|war|scm"
+            + r"|wav|avi|move|mpeg|ram|m4v|mkv|ogg|ogv|pdf|conf"
+            + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|class"
+            + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso|fig"
+            + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java|ff|bib|info"
+            + r"|thmx|mso|arff|rtf|jar|csv|bam|ipynb|pps|c|cls"
             + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z|ma)$", parsed.path.lower())) 
            )
 
