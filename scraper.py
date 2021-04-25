@@ -111,13 +111,8 @@ def is_valid(url):
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
            re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc + parsed.path)):
             return False
-
-         # for traps
-        if (re.search("mt-live",parsed.netloc)) and (parsed.query != None or parsed.query != ""):
-            return False
         
-        # or (re.search("/page/",parsed.path)) or (re.search("page_id=",parsed.query))
-        if (re.search("action=login",parsed.query)) or (re.search("action=download",parsed.query)) or (re.search("do=", parsed.path)) or (re.search("seminar_id=",parsed.query)) or (re.search("precision=",parsed.query)) or (re.search("replytocom=",parsed.query)) or (re.search("share=",parsed.query)) or (re.search("/events",parsed.path)):
+        if (parsed.netloc != "ics.uci.edu") and (not re.search("community/news",parsed.path)) and (parsed.query != ''):
             return False
         
         if (re.search("/events",parsed.path)) or (re.search("zip-attachment",parsed.path)):
