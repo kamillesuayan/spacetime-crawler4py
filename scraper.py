@@ -77,8 +77,8 @@ def scraper(url, resp):
 
             links_visited.add(url)
             links = extract_next_links(url, resp)
-            print("     Links Visited Length:", len(links_visited))
-            print("     Unique Links:", len(crawler.unique_URLs))
+            # print("     Links Visited Length:", len(links_visited))
+            # print("     Unique Links:", len(crawler.unique_URLs))
             return [link for link in links if is_valid(link)]
     links_visited.add(url)
     return
@@ -109,7 +109,7 @@ def is_valid(url):
 
         if not (re.search("\.ics.uci.edu", parsed.netloc) or re.search("\.cs.uci.edu", parsed.netloc) or 
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
-           re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
+           re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc + parsed.path)):
             return False
 
          # for traps
