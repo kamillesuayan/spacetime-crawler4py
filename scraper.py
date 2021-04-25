@@ -21,7 +21,7 @@ def stop_word():
 stp_wrds = stop_word()
 
 def get_features(s):
-    width = 3
+    width = 5
     s = s.lower()
     s = re.sub(r'[^\w]+', '', s)
     return [s[i:i + width] for i in range(max(len(s) - width + 1, 1))]
@@ -125,7 +125,7 @@ def is_valid(url):
             + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
             + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
             + r"|epub|dll|cnf|tgz|sha1|odc|r|sql|java"
-            + r"|thmx|mso|arff|rtf|jar|csv|bam|ipynb"
+            + r"|thmx|mso|arff|rtf|jar|csv|bam|ipynb|pps"
             + r"|rm|smil|wmv|swf|wma|zip|rar|gz|ppsx|z)$", parsed.path.lower())) 
            )
 
