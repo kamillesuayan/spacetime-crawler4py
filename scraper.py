@@ -115,7 +115,10 @@ def is_valid(url):
         if (parsed.netloc != "ics.uci.edu") and (not re.search("community/news",parsed.path)) and (parsed.query != ''):
             return False
         
-        if (re.search("/events",parsed.path)) or (re.search("zip-attachment",parsed.path)):
+        if (re.search("/attachment",parsed.path)) or \
+        (re.search("/file",parsed.path)) or \
+        (re.search("/events",parsed.path)) or \
+        (re.search("zip-attachment",parsed.path)):
             return False
             
         return (not  (re.match(
