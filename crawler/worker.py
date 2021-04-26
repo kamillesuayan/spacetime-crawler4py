@@ -15,6 +15,7 @@ class Worker(Thread):
     # called in __init__.py 
     def run(self):
         while True:
+            start_time = time.time()
             tbd_url = self.frontier.get_tbd_url() # gets the next URL to be downloaded from the frontier            
             
             if not tbd_url: # if there are no more URLS then we are done!

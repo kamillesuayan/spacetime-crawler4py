@@ -20,6 +20,7 @@ def stop_word():
 
 stp_wrds = stop_word()
 
+# for simhash
 def get_features(s):
     width = 4
     s = s.lower()
@@ -36,19 +37,19 @@ def scraper(url, resp):
         parsed = urlparse(url)
         if parsed.fragment != None and parsed.fragment != "":
             url = urldefrag(url)[0] # defragments the URL that is the parameter
-            # print("AHAHA: ", url)
+
+        links_visited.add(url)
+        
         soup = BeautifulSoup(reqs.text, 'html.parser')
         wrds = soup.get_text()
-
-        # 1. for unique URLs
-        
         
         crawler.len_info.write(f"{url}\n")
-        
+
+        # 1. for unique URLs
         crawler.unique_URLs.add(url)
         tkns = tkn.tokenize(wrds, stp_wrds)
 
-        if len(tkns) >= 200 and len(tkns) <= 50000:
+        if len(tkns) >= 0 and len(tkns) <= 50000:
             s1 = Simhash(get_features(wrds))
             if len(index.get_near_dups(s1)) > 2:
                 links_visited.add(url)
@@ -64,7 +65,6 @@ def scraper(url, resp):
             tkn.computeWordFreq(tkns, crawler.most_common)
 
             # 4. how many .ics.uci.edu subdomains
-            
             if re.search("\.ics.uci.edu", parsed.netloc):
                 if re.match("www.",parsed.netloc):
                     new_url = parsed.netloc.strip("www.")
@@ -77,8 +77,8 @@ def scraper(url, resp):
 
             links_visited.add(url)
             links = extract_next_links(url, resp)
-            print("     Links Visited Length:", len(links_visited))
-            print("     Unique Links:", len(crawler.unique_URLs))
+            # print("     Links Visited Length:", len(links_visited))
+            # print("     Unique Links:", len(crawler.unique_URLs))
             return [link for link in links if is_valid(link)]
     links_visited.add(url)
     return
@@ -109,9 +109,9 @@ def is_valid(url):
 
         if not (re.search("\.ics.uci.edu", parsed.netloc) or re.search("\.cs.uci.edu", parsed.netloc) or 
             re.search("\.informatics.uci.edu", parsed.netloc) or re.search("\.stat.uci.edu", parsed.netloc) or
-           re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc)):
+           re.match(r'today.uci.edu/department/information_computer_sciences/*', parsed.netloc + parsed.path)):
             return False
-
+        
         if (parsed.netloc != "ics.uci.edu") and (not re.search("community/news",parsed.path)) and (parsed.query != ''):
             return False
         

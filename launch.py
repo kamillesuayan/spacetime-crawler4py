@@ -7,6 +7,9 @@ from utils.config import Config
 from crawler import * 
 import tokenizer as tk
 
+# ana added this 
+import time # to keep track of how long the program takes to run
+
 def main(config_file, restart):
     cparser = ConfigParser()
     cparser.read(config_file)
@@ -31,10 +34,16 @@ def main(config_file, restart):
     rprt.write(f"LONGEST PAGE LENGTH {longest[0]}\n")
 
     # 3. 50 most common words
-    print("     MOST COMMON WORDS:", tk.freqs(most_common)[0:50]) # 
-    rprt.write(f"MOST COMMON WORDS: {tk.freqs(most_common)[0:50]} \n")
-    
+    print("50 MOST COMMON WORDS:")
+    rprt.write(f"MOST COMMON WORDS: \n")
 
+    common_words = tk.freqs(most_common)[0:50]
+    # index 0 is the word, index 1 is the frequency
+    for item in common_words:
+        print("     ", item[0], item[1], end=",")
+        rprt.write(f"   {item[0]}: {item[1]}\n")
+    print()
+    
     # 4. subdomains
     sorted_subdomains = sorted(subdomains)
     print("     SUBDOMAINS FOR ICS.UCI.EDU:", sorted_subdomains)
@@ -47,10 +56,11 @@ def main(config_file, restart):
     
 
 if __name__ == "__main__":
+    start_time = time.time()
     parser = ArgumentParser()
     parser.add_argument("--restart", action="store_true", default=False)
     parser.add_argument("--config_file", type=str, default="config.ini")
     args = parser.parse_args()
     main(args.config_file, args.restart)
-
     
+    print(f"--- THE PROGRAM TOOK {(time.time() - start_time)} SECONDS ---")
