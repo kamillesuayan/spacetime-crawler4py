@@ -49,7 +49,7 @@ def scraper(url, resp):
         crawler.unique_URLs.add(url)
         tkns = tkn.tokenize(wrds, stp_wrds)
 
-        if len(tkns) >= 200 and len(tkns) <= 50000:
+        if len(tkns) >= 0 and len(tkns) <= 50000:
             s1 = Simhash(get_features(wrds))
             if len(index.get_near_dups(s1)) > 2:
                 links_visited.add(url)

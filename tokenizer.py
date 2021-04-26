@@ -30,17 +30,12 @@ def computeWordFreq(tokenList, freqs):
 def freqs(freqMap):
     # adapted from: https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
     wordRank = sorted(freqMap.items(), key = lambda kv:(kv[1], kv[0]), reverse = True)
-
-    new_wordRank = {}
-
-    for k, v in wordRank: 
-        if not k.isnumeric(): 
-            new_wordRank[k] = v
-
-
     ans = []
-    for k, v in new_wordRank.items(): # CHANGE BACK LATERRRRRRR
-        ans.append(k)
+
+    for k, v in wordRank: # CHANGE BACK LATERRRRRRR
+        if not k.isnumeric():
+            ans.append((k,v))
+
     return ans
     #for word in wordRank:
         #print(word[0],"->",word[1])

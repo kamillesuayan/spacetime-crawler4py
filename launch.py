@@ -34,10 +34,16 @@ def main(config_file, restart):
     rprt.write(f"LONGEST PAGE LENGTH {longest[0]}\n")
 
     # 3. 50 most common words
-    print("     MOST COMMON WORDS:", tk.freqs(most_common)[0:50]) # 
-    rprt.write(f"MOST COMMON WORDS: {tk.freqs(most_common)[0:50]} \n")
-    
+    print("50 MOST COMMON WORDS:")
+    rprt.write(f"MOST COMMON WORDS: \n")
 
+    common_words = tk.freqs(most_common)[0:50]
+    # index 0 is the word, index 1 is the frequency
+    for item in common_words:
+        print("     ", item[0], item[1], end=",")
+        rprt.write(f"   {item[0]}: {item[1]}\n")
+    print()
+    
     # 4. subdomains
     sorted_subdomains = sorted(subdomains)
     print("     SUBDOMAINS FOR ICS.UCI.EDU:", sorted_subdomains)

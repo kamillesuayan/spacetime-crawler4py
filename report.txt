@@ -1,13 +1,55 @@
-NUMBER OF UNIQUE PAGES 1283
-LONGEST PAGE http://www.ics.uci.edu/~kay/taguide.html
-LONGEST PAGE LENGTH 2887
-MOST COMMON WORDS: ['research', 'computer', 'news', 'bren', 'policies', 'school', 'students', 'uci', 'events', 'ics', 'information', 'donald', 'contact', 'academic', 'science', 'student', 'will', 'graduate', 'ramesh', 'faculty', 'data', 'computing', 'sciences', 'media', 'people', 'support', 'can', 'current', 'courses', 'year', 'social', 'irvine', 'us', 'new', 'university', 'one', 'updates', 'past', 'policy', 'alumni', 'projects', 'home', 'hall', 'jain', 'professor', 'apply', 'staff', 'email', 'read', 'use'] 
-coronavirustwittermap.ics.uci.edu, 1
-grape.ics.uci.edu, 5
-ics.uci.edu, 496
-informatics.ics.uci.edu, 1
-isg.ics.uci.edu, 61
-malek.ics.uci.edu, 2
-ngs.ics.uci.edu, 345
-perennialpolycultures.ics.uci.edu, 1
-sli.ics.uci.edu, 2
+NUMBER OF UNIQUE PAGES 1
+LONGEST PAGE https://www.ics.uci.edu/~dillenco/compsci161
+LONGEST PAGE LENGTH 674
+MOST COMMON WORDS: 
+   will: 27
+   email: 15
+   class: 14
+   homework: 11
+   tests: 10
+   course: 10
+   uci: 9
+   page: 9
+   academic: 9
+   questions: 8
+   test: 7
+   section: 7
+   much: 7
+   list: 7
+   dot: 7
+   canvas: 7
+   better: 7
+   piazza: 6
+   notes: 6
+   may: 6
+   information: 6
+   hours: 6
+   final: 6
+   exam: 6
+   edu: 6
+   use: 5
+   office: 5
+   instructor: 5
+   grade: 5
+   forum: 5
+   examination: 5
+   discussed: 5
+   time: 4
+   students: 4
+   please: 4
+   one: 4
+   four: 4
+   dishonesty: 4
+   can: 4
+   available: 4
+   assistants: 4
+   assignments: 4
+   us: 3
+   teaching: 3
+   sending: 3
+   see: 3
+   sections: 3
+   scheduled: 3
+   posts: 3
+   material: 3
+ics.uci.edu, 1
