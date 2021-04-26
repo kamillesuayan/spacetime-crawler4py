@@ -1,3 +1,10 @@
-263
-541
-530
+https://www.ics.uci.edu/honors/index.php
+https://www.ics.uci.edu/about/about_safety.php
+https://www.ics.uci.edu/grad/index.php
+https://www.ics.uci.edu/grad/qa/index.php
+https://www.ics.uci.edu/grad/policies/GradPolicies_Defense.php
+https://www.ics.uci.edu/grad/admissions/index.php
+https://www.ics.uci.edu/grad/admissions/comparison_chart_masters
+https://www.ics.uci.edu/~yamingy
+http://www.ics.uci.edu/~yamingy/npmle_README.txt
+http://www.ics.uci.edu/~yamingy/cocktail_README.txt
